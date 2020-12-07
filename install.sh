@@ -63,13 +63,16 @@ install_packages(){
 		;;
 	*)
 		echo "[ERROR] 似乎不支持这个系统, 也有可能是尚未适配, 将会继续安装."
+		apt -y install qrencode
+		;;
 	esac
 }
 
 debian_modify(){
 	cp /etc/apt/sources.list /etc/apt/sources.list.bak
 	cp /etc/apt/sources.list.d/armbian.list /etc/apt/sources.list.d/armbian.list.bak
-	cat /etc/apt/sources.list | sed 's/http.*\/debian/http:\/\/mirrors.tuna.tsinghua.edu.cn\/debian/g' | cat > /etc/apt/source.list
+	echo "[INFO] 已完成软件源备份."
+	cat /etc/apt/sources.list | sed 's/http.*\/debian/http:\/\/mirrors.tuna.tsinghua.edu.cn\/debian/g' | cat > /etc/apt/sources.list
 	cat /etc/apt/sources.list.d/armbian.list | sed 's/http.*\/armbian/http:\/\/mirrors.tuna.tsinghua.edu.cn\/armbian/g' | cat > /etc/apt/sources.list.d/armbian.list
 	apt update
 }
@@ -82,14 +85,15 @@ fstab_mount(){
 		echo "/dev/sda1 /mnts ext4 defaults 0 0" >> /etc/fstab
 		mount /dev/sda1 /mnts
 		mount -a
-		echo "[INFO] 存储设备挂载完成."
+		echo "[INFO] 存储设备 sda1 挂载完成."
 	else
-		echo "[ERROR] USB设备 不存在, 尝试挂载SD卡".
+		echo "[ERROR] sda1 不存在, 尝试挂载 SD卡."
 			if [ "$(blkid /dev/mmcblk0p1)" != "" ]
 			then
 				echo "/dev/mmcblk0p1 /mnts ext4 defaults 0 0" >> /etc/fstab
 				mount /dev/mmcblk0p1 /mnts
 				mount -a
+				echo "[INFO] 存储设备 mmcblk0p1 挂载完成."
 			else
 				echo "[ERROR] 无存储设备可用, 异常退出."
 				exit 1
