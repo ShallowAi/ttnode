@@ -108,6 +108,7 @@ crontab_add(){
 run_ttnode(){
 	echo "[INFO] 开始运行甜糖星愿服务."
 	/usr/node/ttnode -p /mnts | grep uid | sed -e 's/^.*uid = //g' -e 's/.\s//g' | tr -d '\n' | qrencode -o - -t UTF8
+	/usr/node/ttnode -p /mnts | grep uid
 	echo "恭喜! 若无报错, 甜糖星愿服务即已运行, 扫描上述二维码即可添加设备!"
 }
 
@@ -126,6 +127,7 @@ echo
 printf "%-50s\n" "-" | sed 's/\s/-/g'
 echo "欢迎使用甜糖一键部署脚本, 正在检测系统架构并准备相关文件..."
 read -s -n1 -p "按任意键开始安装..."
+dns_change
 check_arch
 fstab_mount
 crontab_add
