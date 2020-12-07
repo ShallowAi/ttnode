@@ -111,6 +111,11 @@ run_ttnode(){
 	echo "恭喜! 若无报错, 甜糖星愿服务即已运行, 扫描上述二维码即可添加设备!"
 }
 
+dns_change(){
+	echo "119.29.29.29" > /etc/resolv.conf
+	echo "119.29.29.29" > /etc/resolvconf/resolv.conf.d/head
+}
+
 printf "%-50s\n" "-" | sed 's/\s/-/g'
 echo
 echo "Author: ShallowAi"
