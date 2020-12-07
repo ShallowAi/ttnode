@@ -112,8 +112,8 @@ run_ttnode(){
 }
 
 dns_change(){
-	echo "119.29.29.29" > /etc/resolv.conf
-	echo "119.29.29.29" > /etc/resolvconf/resolv.conf.d/head
+	echo "nameserver 119.29.29.29" > /etc/resolv.conf
+	echo "nameserver 119.29.29.29" > /etc/resolvconf/resolv.conf.d/head
 }
 
 printf "%-50s\n" "-" | sed 's/\s/-/g'
