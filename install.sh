@@ -11,23 +11,14 @@ check_arch(){
 	arch=`uname -m`
 	bit=`getconf LONG_BIT`
 	case $arch in
-	armv7l)
-		install_packages $bit
-		;;
-	armv7)
-		install_packages $bit
-		;;
-	armv8)
-		install_packages $bit
-		;;
-	arm64)
+	arm*)
 		install_packages $bit
 		;;
 	aarch64)
 		install_packages $bit
 		;;
 	*)
-	    echo "不支持的系统类型 $arch ($bit bit)"
+	    echo "[ERROR] 不支持的系统类型 $arch ($bit bit), 程序仍然会尝试安装"
 		;;
 	esac
 }
@@ -45,6 +36,7 @@ install_packages(){
 	chmod a+x /usr/node/ttnode
 	echo "[INFO] 开始获取甜糖自动重启脚本"
 	wget --no-check-certificate -O /usr/node/crash_monitor.sh https://cdn.jsdelivr.net/gh/ShallowAi/ttnode@main/bin/crash_monitor.sh
+	chmod a+x /usr/node/crash_monitor.sh
 	echo "[INFO] 创建甜糖日志文件."
 	touch /usr/node/log.log
 	echo "[INFO] 获取基础软件包, 并更新软件源."
