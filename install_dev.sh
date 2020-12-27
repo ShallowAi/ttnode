@@ -127,7 +127,7 @@ echo "Email: Shallowlovest@qq.com"
 echo "甜糖邀请码: 451003"
 echo
 printf "%-50s\n" "-" | sed 's/\s/-/g'
-echo "欢迎使用甜糖一键部署脚本 开发版本, 正在检测系统架构并准备相关文件..."
+echo "欢迎使用甜糖一键部署脚本 Dev版本, 正在检测系统架构并准备相关文件..."
 read -s -n1 -p "按任意键开始安装..."
 dns_change
 check_arch
