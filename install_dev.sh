@@ -103,16 +103,20 @@ crontab_add(){
 	crontab -l | { cat; echo "* * * * * /usr/node/crash_monitor.sh"; } | crontab
 }
 
-run_ttnode(){
-	echo "[INFO] 开始运行甜糖星愿服务."
-	/usr/node/ttnode -p /mnts | grep uid | sed -e 's/^.*uid = //g' -e 's/.\s//g' | tr -d '\n' | qrencode -o - -t UTF8
-	/usr/node/ttnode -p /mnts | grep uid
-	echo "恭喜! 若无报错, 甜糖星愿服务即已运行, 扫描上述二维码即可添加设备!"
-}
-
 dns_change(){
 	echo "nameserver 119.29.29.29" > /etc/resolv.conf
 	echo "nameserver 119.29.29.29" > /etc/resolvconf/resolv.conf.d/head
+}
+
+# Mac 地址修改函数
+# 第一字节必须为偶数
+mac_modify(){
+	echo "[INFO] 开始修改 MAC 地址."
+	sed -i "6a\hwaddress ether 00:$(openssl rand -hex 5 | cut --output-delimiter=: -b 1-2,3-4,5-6,7-8,9-10)" /etc/network/interfaces
+}
+
+dis_swap(){
+	sed -i "s/vm.swappiness=(\d)+/vm.swappiness=0/g" /etc/sysctl.conf
 }
 
 printf "%-50s\n" "-" | sed 's/\s/-/g'
@@ -123,12 +127,13 @@ echo "Email: Shallowlovest@qq.com"
 echo "甜糖邀请码: 451003"
 echo
 printf "%-50s\n" "-" | sed 's/\s/-/g'
-echo "欢迎使用甜糖一键部署脚本, 正在检测系统架构并准备相关文件..."
+echo "欢迎使用甜糖一键部署脚本 开发版本, 正在检测系统架构并准备相关文件..."
 read -s -n1 -p "按任意键开始安装..."
 dns_change
 check_arch
 fstab_mount
 crontab_add
+mac_modify
 run_ttnode
 echo
 echo "已完成安装! 感谢您的使用, 支持我 Email: Shallowlovest@qq.com 甜糖邀请码: 451003"
