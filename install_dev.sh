@@ -73,7 +73,8 @@ fstab_mount(){
 	read -s -n1 -p "[WARN] 当前操作会覆盖开机启动文件, 按任意键继续, 按 Ctrl+C 退出."
 	if [ "$(blkid /dev/sda1)" != "" ]
 	then
-		echo "mount /dev/sda1 /mnts" > /etc/rc.local
+		echo "#!/bin/sh -e" > /etc/rc.local
+		echo "mount /dev/sda1 /mnts" >> /etc/rc.local
 		echo "exit 0" >> /etc/rc.local
 		mount /dev/sda1 /mnts
 		echo "[INFO] 存储设备 sda1 挂载完成."
@@ -81,14 +82,16 @@ fstab_mount(){
 		echo "[ERROR] sda1 不存在, 尝试挂载 SD卡."
 			if [ "$(blkid /dev/mmcblk0p1)" != "" ]
 			then
-				echo "mount /dev/mmcblk0p1 /mnts" > /etc/rc.local
+				echo "#!/bin/sh -e" > /etc/rc.local
+				echo "mount /dev/mmcblk0p1 /mnts" >> /etc/rc.local
 				echo "exit 0" >> /etc/rc.local
 				mount /dev/mmcblk0p1 /mnts
 				echo "[INFO] 存储设备 mmcblk0p1 挂载完成."
 			elif [ "$(blkid /dev/mmcblk1p1)" != "" ]
 			then
 				read -s -n1 -p "[WARN] 当前正在挂载 mmcblk1p1 部分设备中该设备为内置存储, 请注意! 按任意键继续, 按 Ctrl+C 退出."
-				echo "mount /dev/mmcblk1p1 /mnts" > /etc/rc.local
+				echo "#!/bin/sh -e" > /etc/rc.local
+				echo "mount /dev/mmcblk1p1 /mnts" >> /etc/rc.local
 				echo "exit 0" >> /etc/rc.local
 				mount /dev/mmcblk1p1 /mnts
 				echo "[INFO] 存储设备 mmcblk0p1 挂载完成."
